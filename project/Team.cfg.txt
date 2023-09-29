@@ -58,3 +58,4 @@
 Крок 8: Розгортання та хостинг
 
 Розгорніть ваш веб-додаток на сервері. Виберіть хостинг-провайдера і налаштуйте серверне оточення.
+docker run -v C:\Users\User\Documents\team\Team-victory\project:/usr/share/nginx/html -p 80:80 --rm --name testpr projectsynergy
