@@ -1,48 +1,21 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProjectSynergy - Ваша платформа для спільної розробки проектів</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Підключіть файл стилів styles.css -->
+    <title>Форма для введення імені користувача та пароля</title>
 </head>
 <body>
-    <header>
-        <h1>Ласкаво просимо до ProjectSynergy</h1>
-        <nav>
-            <ul>
-                <li><a href="#">Головна</a></li>
-                <li><a href="#">Проекти</a></li>
-                <li><a href="#">Ідеї</a></li>
-                <li><a href="#">Про нас</a></li>
-                <li><a href="#">Контакти</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section class="hero">
-            <h2>Спільна створення. Спільний розвиток.</h2>
-            <p>Приєднуйтесь до нас і втілюйте ваші ідеї в життя разом з ProjectSynergy.</p>
-            <a href="#" class="cta-button">Почати</a>
-        </section>
-        <section class="features">
-            <h2>Наші можливості</h2>
-            <div class="feature">
-                <h3>Обмін ідеями</h3>
-                <p>Діліться своїми ідеями та знаходьте партнерів для спільної розробки.</p>
-            </div>
-            <div class="feature">
-                <h3>Спільна розробка</h3>
-                <p>Працюйте з іншими учасниками над проектами та досягайте спільних цілей.</p>
-            </div>
-            <div class="feature">
-                <h3>Форум і обговорення</h3>
-                <p>Беріть участь в обговореннях, обмінюйтеся думками та знаходьте рішення разом.</p>
-            </div>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2023 ProjectSynergy</p>
-    </footer>
+
+<h2>Увійти</h2>
+
+<form action="/login" method="post">
+    <label for="username">Ім'я користувача:</label><br>
+    <input type="text" id="username" name="username" required><br><br>
+
+    <label for="password">Пароль:</label><br>
+    <input type="password" id="password" name="password" required><br><br>
+
+    <input type="submit" value="Увійти">
+</form>
+
 </body>
 </html>
