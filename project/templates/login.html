@@ -2,19 +2,35 @@
 <html>
 <head>
     <title>Форма для введення імені користувача та пароля</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+            margin: 0;
+        }
+
+        form {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 
-<h2>Увійти</h2>
+
 
 <form action="/login" method="post">
+    <h2>Увійти</h2>
     <label for="username">Ім'я користувача:</label><br>
     <input type="text" id="username" name="username" required><br><br>
 
     <label for="password">Пароль:</label><br>
     <input type="password" id="password" name="password" required><br><br>
 
-    <input type="submit" value="Увійти">
+    <input type="submit" name="value" value="Реєстрація"> 
+    <input type="submit" name="value" value="Вхід"> 
+    <input type="submit" name="value" value="3"> 
 </form>
 
 </body>

@@ -1,35 +1,58 @@
+from flask import Flask, render_template, request
 import sqlite3
 
-conn = sqlite3.connect('credential1.db')
+app = Flask(__name__)
 
-cursor = conn.cursor()
 
-cursor.execute('''CREATE TABLE IF NOT EXISTS credentials  (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT)''')
+@app.route('/')
 
-def save_credentials(username, password):
 
-    cursor.execute("INSERT INTO credentials (username, password) VALUES (?, ?)", (username, password))
+def login_form():
+    return render_template('login.html')
 
-    conn.commit()
+@app.route('/login', methods=['POST'])
+def login():
+    username = str(request.form['username'])
+    password = str(request.form['password'])
+    value = request.form['value']
+    conn = sqlite3.connect('project/credentials.db')
+    cursor = conn.cursor() 
+    
+    cursor.execute('''CREATE TABLE IF NOT EXISTS credentials (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT)''')
 
-    with open("credentials.txt", "a") as file:
+    def save_credentials(username, password):
+        
 
-        file.write(f"Username: {username}\nPassword: {password}\n\n")
+        cursor.execute("SELECT * FROM credentials WHERE username=?", (username,))
+        result = cursor.fetchone()
+        if result:
+           return f'користувач с таким логіном вже існує'
+        
 
-def check_credentials(username, password):
 
-    cursor.execute("SELECT * FROM credentials WHERE username=? AND password=?", (username, password))
+        cursor.execute("INSERT INTO credentials (username, password) VALUES (?, ?)", (username, password))
+        conn.commit()
+        return f'реєстрація пройшла успішно'
 
-    result = cursor.fetchone()  
+    def loginn(username, password):
 
-    if result:
-        print("Доступ дозволено")
-    else:
-        print("направильний логін або пароль")
+         cursor.execute("SELECT * FROM credentials WHERE username=? AND password=?", (username, password))
+         result = cursor.fetchone()
+         if result:
+            return f'Ви успішно увійшли!'
+         else:
+            return f'Неправильний логін або пароль'
+    
+    if value == "Реєстрація":
+        result = save_credentials(username, password)
+    elif value == "Вхід":
+        result = loginn(username, password)
+    elif value == "3":
+        return f'Вы ввели имя: {username} і пароль: {password}'
+    return result
+    conn.close()
+    
 
-username = input("Введіть логін: ")
-password = input("Введіть пароль: ")
+if __name__ == '__main__':
+    app.run(debug=True)
 
-check_credentials(username, password)
-
-conn.close()
