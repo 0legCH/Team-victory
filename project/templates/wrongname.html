@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Користувач з таким логіном вже існує</title>
+    <link rel="stylesheet" href="../static/main.css">
+</head>
+<body>
+    <form action="/login" method="post" autocomplete="off">
+        <div id="head"></div>
+        <div class="main">
+            <div id ="blockwronglogin">
+                <input type="hidden" name="username" username=""> 
+                <input type="hidden" name="password" password=""> 
+                <h2>Користувач з таким логіном вже існує</h2><br>
+                <input class = "button" type="submit" name="value" value="Спробувати ще раз"> 
+                
+            </div>
+        </div>
+    </form>
+</body>
+</html>

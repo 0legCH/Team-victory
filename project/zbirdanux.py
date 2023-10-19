@@ -6,7 +6,6 @@ app = Flask(__name__)
 
 @app.route('/')
 
-
 def login_form():
     return render_template('login.html')
 
@@ -26,13 +25,13 @@ def login():
         cursor.execute("SELECT * FROM credentials WHERE username=?", (username,))
         result = cursor.fetchone()
         if result:
-           return f'користувач с таким логіном вже існує'
+           return render_template('wrongname.html')
         
 
 
         cursor.execute("INSERT INTO credentials (username, password) VALUES (?, ?)", (username, password))
         conn.commit()
-        return f'реєстрація пройшла успішно'
+        return render_template('newaccount.html')
 
     def loginn(username, password):
 
@@ -41,14 +40,15 @@ def login():
          if result:
             return f'Ви успішно увійшли!'
          else:
-            return f'Неправильний логін або пароль'
-    
+            return render_template('wrongdata.html')
     if value == "Реєстрація":
         result = save_credentials(username, password)
     elif value == "Вхід":
         result = loginn(username, password)
+    elif value == "Спробувати ще раз" or "Увійти":
+        return render_template('login.html')
     elif value == "3":
-        return f'Вы ввели имя: {username} і пароль: {password}'
+        return f'Ви ввели імя: {username} і пароль: {password}'
     return result
     conn.close()
     

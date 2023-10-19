@@ -1,37 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Форма для введення імені користувача та пароля</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 80vh;
-            margin: 0;
-        }
-
-        form {
-            text-align: center;
-        }
-    </style>
+    <title>Вхід в акаунт</title>
+    <link rel="stylesheet" href="../static/main.css">
 </head>
 <body>
+    <form action="/login" method="post">
+        <div id="head">
+            <input class = "button" type="submit" name="value" value="Увійти">
+        </div>
+        <div class="main">
+            <div id ="blocklogin">
 
+            
+                <h1 class="test">Увійти</h1><br>
+                <label for="username">Ім'я користувача:</label><br>
+                <input type="text" id="username" name="username" required><br><br>
 
+                <label for="password">Пароль:</label><br>
+                <input type="password" id="password" name="password" required><br><br>
 
-<form action="/login" method="post">
-    <h2>Увійти</h2>
-    <label for="username">Ім'я користувача:</label><br>
-    <input type="text" id="username" name="username" required><br><br>
-
-    <label for="password">Пароль:</label><br>
-    <input type="password" id="password" name="password" required><br><br>
-
-    <input type="submit" name="value" value="Реєстрація"> 
-    <input type="submit" name="value" value="Вхід"> 
-    <input type="submit" name="value" value="3"> 
-</form>
-
+                <input class = "button" type="submit" name="value" value="Реєстрація"> 
+                <input class = "button" type="submit" name="value" value="Вхід"> 
+                
+            </div>
+        </div>
+    </form>
 </body>
 </html>

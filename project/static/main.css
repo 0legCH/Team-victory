@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    background-image: url(../static/background.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+#head{
+    background: silver;
+    height: 10vh;
+    width: 100%;
+    border-bottom: 7px solid #404040 ;
+}
+#head input{
+    margin-left: 188vh;
+    margin-top: 3vh;
+    height: auto;
+    font-size: x-large;
+}
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 65vh;
+    margin: 0;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+}
+#blocklogin{
+    background: silver;
+    height: 250px;
+    width: 300px;
+    background-position-x: center;
+    border: 7px solid #404040;
+    border-radius: 35px;
+    padding-top: 40px;
+    padding-bottom: 10px;
+}
+#blockwronglogin{
+    background: silver;
+    height: 120px;
+    width: 600px;
+    background-position-x: center;
+    border: 7px solid #404040;
+    border-radius: 35px;
+    padding-top: 40px;
+}
+.test:hover{
+    color: brown;
+}
+input{
+    font-family: 'Roboto', sans-serif;
+}
+input:required{color: rgb(0, 102, 0);}
+input:required:focus{color: rgb(124, 0, 0);}
+input:required{
+    border: 4px solid #404040;
+    background: #DCDCDC;
+    border-radius: 10px;
+    height: 22px;
+    width: 200px;
+    text-align: center;
+}
+.button{
+    border: 4px solid #404040;
+    background: #DCDCDC;
+    height: 30px;
+    text-align: center;
+    border-radius: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
