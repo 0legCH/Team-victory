@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 import sqlite3
+import logging
 
 app = Flask(__name__)
 
@@ -18,7 +19,21 @@ def login():
     cursor = conn.cursor() 
     
     cursor.execute('''CREATE TABLE IF NOT EXISTS credentials (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT)''')
+    #
+    logger = logging.getLogger('project/my_website')
+    logger.setLevel(logging.DEBUG)
 
+    file_handler = logging.FileHandler('project/my_website')
+    file_handler.setLevel(logging.DEBUG)
+
+    formatter = logging.Formatter('%(asctime)s - %(message)s')
+
+    file_handler.setFormatter(formatter)
+    logger.addHandler(file_handler)
+    
+    def loglogin(username):
+        logger.debug(f'Enter the website: {username}')
+    #
     def save_credentials(username, password):
         
 
@@ -38,6 +53,7 @@ def login():
          cursor.execute("SELECT * FROM credentials WHERE username=? AND password=?", (username, password))
          result = cursor.fetchone()
          if result:
+            loglogin(username)
             return f'Ви успішно увійшли!'
          else:
             return render_template('wrongdata.html')
