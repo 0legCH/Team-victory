@@ -13,12 +13,11 @@ body{
     background: silver;
     height: 10vh;
     width: 100%;
-    border-bottom: 7px solid #404040 ;
+    border-bottom: 1vh solid #404040 ;
 }
 #head a{
-    margin-left: 188vh;
-    margin-top: 10vh;
-    height: auto;
+    margin-bottom: 10vh;
+    margin-left: 70vh;
     font-size: x-large;
 }
 .main {
@@ -77,4 +76,17 @@ input:required{
     color: black;
     text-decoration: none;
     font-family: 'Roboto', sans-serif;
+}
+#blocklogin a{
+    
+    padding: 0.36vh;
+    margin-right: 1.5vh;
+
+    font-size:1.45vh
+    
+}
+.logo{
+    height: 6vh;
+    padding-top: 1vh;
+    margin-left: 65vh;
 }

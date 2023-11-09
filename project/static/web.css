@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    background-image: url(../static/background.jpg);
+    background-repeat: repeat-y;
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+}
+#head{
+    background: silver;
+    height: 10vh;
+    width: 100%;
+    border-bottom: 1vh solid #404040 ;
+}
+#info{
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    background: white;
+    margin-left: 36vh;
+    margin-top: 3vh;
+    height: 200vh;
+    width: 120vh;
+    border: 1vh solid #404040 ;
+    border-radius: 4vh;
+    
+}
+#info h1{
+    margin-top: 5vh;
+    font-size: 5vh;
+}
+#items{
+    display: flex;
+}
+#item{
+    background-color: white;
+    height: 35vh;
+    width: 25vh;
+    margin-left: 3.5vh;
+    margin-top: 10vh;
+    border: 0.4vh solid #404040 ;
+    border-radius: 1vh;
+}
+#item img{
+    height: 25vh;
+    margin-top: 2vh;
+    
+}
+.logo{
+    padding-top: 1vh;
+    margin-left: 65vh;
+    
+}
+.logo img{
+    height: 6vh;
+}
+.profile{
+    padding-top: 1.6vh;
+    margin-left: 3vh;
+}
+.profile img{
+    height: 7vh;
+}
+.basket{
+    height: 7vh;
+    margin-left: 60vh;
+}
+.basket img{
+    height: 7vh;
+    padding-top: 1vh;
+}
+#product_detail{
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    background: white;
+    margin-left: 36vh;
+    margin-top: 3vh;
+    height: 60vh;
+    width: 120vh;
+    border: 1vh solid #404040 ;
+    border-radius: 4vh;
+}
