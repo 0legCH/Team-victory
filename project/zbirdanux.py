@@ -42,6 +42,9 @@ products = {
     16: {"name": "Товар 2", "description": "Властивості товару 2", "price": 20.00, "image": "items/16.webp"},
 }
 #Кінець списку
+#база даних продуктів
+
+#кінець
 wrong_data_try = 0
 def reset_wrongdatatry():
     global wrongdatatry
@@ -150,6 +153,48 @@ def product_detail(product_id):
         return "Товар не знайдено"
 
     return render_template('product_detail.html', product=product)
+
+@app.route('/product/new_product',methods=['POST', 'GET'] )
+def new_product():
+    if request.method == "POST":
+        #
+        conn = sqlite3.connect('products.db')
+        cursor = conn.cursor()
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS products (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT,
+                description TEXT,
+                price REAL,
+                image TEXT
+            )
+        ''')
+        conn.commit()
+
+        def add_product(name, description, price, image):
+            # Добавление товара в базу данных
+            cursor.execute('''
+                INSERT INTO products (name, description, price, image)
+                VALUES (?, ?, ?, ?)
+            ''', (name, description, price, image))
+            conn.commit()
+
+        def get_product_by_id(product_id):
+            cursor.execute('SELECT * FROM products WHERE id = ?', (product_id,))
+            return cursor.fetchone()
+        #
+        name = str(request.form['name'])
+        description = str(request.form['description'])
+        price = str(request.form['price'])
+        image = str(request.form['image'])
+        value = str(request.form['value'])
+        if value == "створити":
+            add_product(name, description, price, image)
+            product = get_product_by_id(1)
+            conn.close()
+            return(f"ID: {product[0]}, Name: {product[1]}, Description: {product[2]}, Price: {product[3]}, Image: {product[4]}")
+    else:
+      return  render_template('new_product.html')
 
 
 if __name__ == '__main__':
