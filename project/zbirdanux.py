@@ -42,9 +42,7 @@ products = {
     16: {"name": "Товар 2", "description": "Властивості товару 2", "price": 20.00, "image": "items/16.webp"},
 }
 #Кінець списку
-#база даних продуктів
 
-#кінець
 wrong_data_try = 0
 def reset_wrongdatatry():
     global wrongdatatry
@@ -148,7 +146,12 @@ def wrongdatalimit():
 
 @app.route('/product/<int:product_id>')
 def product_detail(product_id):
-    product = products.get(product_id)
+    conn = sqlite3.connect('products.db') #ТУТ МАЄ БУТИ ВАШ ПОВНИЙ ШЛЯХ ДО ФАЙЛУ БАЗИ
+    cursor = conn.cursor()
+    def get_product_by_id(product_id):
+        cursor.execute('SELECT * FROM products WHERE id = ?', (product_id,))
+        return cursor.fetchone()
+    product = get_product_by_id(product_id)
     if product is None:
         return "Товар не знайдено"
 
@@ -172,7 +175,7 @@ def new_product():
         conn.commit()
 
         def add_product(name, description, price, image):
-            # Добавление товара в базу данных
+            
             cursor.execute('''
                 INSERT INTO products (name, description, price, image)
                 VALUES (?, ?, ?, ?)
