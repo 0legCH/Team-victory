@@ -9,7 +9,7 @@ app = Flask(__name__)
 def set_profiledata(username,mail):
     global profileusername
     global profilemail
-    
+
     profileusername = username
     profilemail = mail[0]
 
@@ -25,7 +25,7 @@ formatter = logging.Formatter('%(asctime)s - %(message)s')
 
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
-        
+
 def logenter(username, mail):
     logger.debug(f'Enter the website: "{username}" and email: "{mail}"')
 def logregistration(username, mail):
@@ -67,12 +67,12 @@ def login_form():
     if request.method == "POST":
         username = str(request.form['username'])
         password = str(request.form['password'])
-        
+
         value = request.form['value']
         conn = sqlite3.connect('credentials.db')
-        cursor = conn.cursor() 
+        cursor = conn.cursor()
         cursor.execute('''CREATE TABLE IF NOT EXISTS credentials (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, mail TEXT)''')
- 
+
         def login(username, password):
             global wrong_data_try
             cursor.execute("SELECT * FROM credentials WHERE username=? AND password=?", (username, password))
@@ -82,7 +82,7 @@ def login_form():
                 result = cursor.fetchone()
                 logenter(username, result)
                 set_profiledata(username, result)
-                
+
                 return 'main'
             else:
                 wrong_data_try += 1
@@ -105,17 +105,17 @@ def registration():
         password = str(request.form['password'])
         value = request.form['value']
         conn = sqlite3.connect('credentials.db')
-        cursor = conn.cursor() 
-        
+        cursor = conn.cursor()
+
         cursor.execute('''CREATE TABLE IF NOT EXISTS credentials (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, mail TEXT)''')
         def save_credentials(username, password, mail):
-        
+
 
             cursor.execute("SELECT * FROM credentials WHERE username=?", (username,))
             result = cursor.fetchone()
             if result:
                 return redirect('/wrongname')
-            
+
 
 
             cursor.execute("INSERT INTO credentials (username, password, mail) VALUES (?, ?, ?)", (username, password, mail))
@@ -132,8 +132,8 @@ def registration():
 @app.route('/newaccount')
 def newaccount():
     return render_template('newaccount.html')
-    
- 
+
+
 @app.route('/wrongdata')
 def wrongdata():
     return render_template('wrongdata.html')
@@ -154,18 +154,56 @@ def wrongdatalimit():
     return render_template('wrongdatalimit.html')
 
 
-@app.route('/product/<int:product_id>')
+@app.route('/product/<int:product_id>', methods=['POST', 'GET'])
 def product_detail(product_id):
-    conn = sqlite3.connect('products.db')
-    cursor = conn.cursor()
-    def get_product_by_id(product_id):
-        cursor.execute('SELECT * FROM products WHERE id = ?', (product_id,))
-        return cursor.fetchone()
-    product = get_product_by_id(product_id)
-    if product is None:
-        return "Товар не знайдено"
+    if request.method == "POST":
+        value = request.form['value']
+        if value == "Купити":
+            conn = sqlite3.connect('C:/Users/dosyu/OneDrive/Документи/chypachyps/Team-victory/products.db')
+            cursor = conn.cursor()
 
-    return render_template('product_detail.html', product=product)
+
+            def get_product_by_id(product_id):
+                cursor.execute('SELECT * FROM products WHERE id = ?', (product_id,))
+                return cursor.fetchone()
+
+            product = get_product_by_id(product_id)
+            name = product[1]
+            price = product[3]
+            conn.close()
+
+            conn = sqlite3.connect('C:/Users/dosyu/OneDrive/Документи/chypachyps/Team-victory/project/basket_database.db')
+            cursor = conn.cursor()
+            cursor.execute('''CREATE TABLE IF NOT EXISTS cart
+                              (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                              name TEXT NOT NULL,
+                              price REAL NOT NULL,
+                              quantity INTEGER NOT NULL)''')
+
+
+
+
+
+            cursor.execute('INSERT INTO cart (name, price, quantity) VALUES (?, ?, ?)', (name, price, 1))
+
+
+            conn.commit()
+
+
+            conn.close()
+            return redirect('/basket')
+    else :
+        conn = sqlite3.connect('C:/Users/dosyu/OneDrive/Документи/chypachyps/Team-victory/products.db')
+        cursor = conn.cursor()
+        def get_product_by_id(product_id):
+            cursor.execute('SELECT * FROM products WHERE id = ?', (product_id,))
+            return cursor.fetchone()
+        product = get_product_by_id(product_id)
+        if product is None:
+            return "Товар не знайдено"
+        conn.close()
+
+        return render_template('product_detail.html', product=product)
 
 
 @app.route('/product/new_product',methods=['POST', 'GET'] )
@@ -186,7 +224,7 @@ def new_product():
         conn.commit()
 
         def add_product(name, description, price, image):
-            
+
             cursor.execute('''
                 INSERT INTO products (name, description, price, image)
                 VALUES (?, ?, ?, ?)
@@ -209,7 +247,7 @@ def new_product():
             return redirect("/main")
     else:
       return  render_template('new_product.html')
-    
+
 
 @app.route('/profile')
 def profile():
@@ -218,6 +256,22 @@ def profile():
     username = profileusername
     mail = profilemail
     return render_template('profile.html', username= username, mail = mail)
+
+
+@app.route('/basket')
+def show_cart():
+    conn = sqlite3.connect('C:/Users/dosyu/OneDrive/Документи/chypachyps/Team-victory/project/basket_database.db')
+    cursor = conn.cursor()
+
+
+    cursor.execute('SELECT * FROM cart')
+    cart_items = cursor.fetchall()
+
+
+    conn.close()
+
+    return render_template('basket.html', cart_items=cart_items)
+
 
 
 

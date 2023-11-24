@@ -5,16 +5,19 @@
     <link rel="stylesheet" href="../static/web.css">
 </head>
 <body>
-    <div id="head">
-        <a class="logo" href="/main"><img src="../static/logo.png"></a>
-        <a class="basket" href="/main"><img src="../static/basket.png"></a>
-        <a class="profile" href="/main"><img src="../static/profile.png"></a>
-    </div>
-    <div id="product_detail">
-        <img src="{{ url_for('static', filename=product[4]) }}" alt="{{ product.name }}">
-        <h1>{{ product[1] }}</h1>
-        <h2>Ціна: {{ product[3] }}</h2>
-        <p>{{ product[2] }}</p>
-    </div>
+    <form method="post" >
+        <div id="head">
+            <a class="logo" href="/main"><img src="../static/logo.png"></a>
+            <a class="basket" href="/basket"><img src="../static/basket.png"></a>
+            <a class="profile" href="/profile"><img src="../static/profile.png"></a>
+        </div>
+        <div id="product_detail">
+            <img src="{{ url_for('static', filename=product[4]) }}" alt="{{ product.name }}">
+            <h1>{{ product[1] }}</h1>
+            <h2>Ціна: {{ product[3] }}</h2>
+            <p>{{ product[2] }}</p>
+             <input class = "button" type="submit" name="value" value="Купити">
+        </div>
+    </form>
 </body>
 </html>

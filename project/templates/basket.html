@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="../static/web.css">
 </head>
 <body>
-    <form action="/login" method="post" autocomplete="off">
+
         <div id="head">
             <a class="logo" href="/main"><img src="../static/logo.png"></a>
             <a class="basketprofile" href="/main"><img src="../static/profile.png"></a>
@@ -13,7 +13,33 @@
         </div>
         <div id="basketinfo">
             <h1>Корзина</h1>
+
+
+
+            <table>
+                <tr>
+                    <th >Назва</th>
+                    <th>Ціна</th>
+                    <th>Кількість</th>
+
+                </tr>
+                {% for item in cart_items %}
+                <tr>
+                    <td>{{ item[1] }}</td>
+                    <td>{{ item[2] }}</td>
+                    <td>{{ item[3] }}</td>
+                    <td></td>
+                </tr>
+                {% endfor %}
+            </table>
+
+
+
+
+
+
+
         </div>
-    </form>
+
 </body>
 </html>
