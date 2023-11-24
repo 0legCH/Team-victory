@@ -5,6 +5,15 @@ import time
 import threading
 
 app = Flask(__name__)
+
+def set_profiledata(username,mail):
+    global profileusername
+    global profilemail
+    
+    profileusername = username
+    profilemail = mail[0]
+
+
 #Початок логування
 logger = logging.getLogger('my_website')
 logger.setLevel(logging.DEBUG)
@@ -72,6 +81,7 @@ def login_form():
                 cursor.execute("SELECT mail FROM credentials WHERE username = ?;", (username,))
                 result = cursor.fetchone()
                 logenter(username, result)
+                set_profiledata(username, result)
                 
                 return 'main'
             else:
@@ -146,7 +156,7 @@ def wrongdatalimit():
 
 @app.route('/product/<int:product_id>')
 def product_detail(product_id):
-    conn = sqlite3.connect('products.db') #ТУТ МАЄ БУТИ ВАШ ПОВНИЙ ШЛЯХ ДО ФАЙЛУ БАЗИ
+    conn = sqlite3.connect('products.db')
     cursor = conn.cursor()
     def get_product_by_id(product_id):
         cursor.execute('SELECT * FROM products WHERE id = ?', (product_id,))
@@ -156,6 +166,7 @@ def product_detail(product_id):
         return "Товар не знайдено"
 
     return render_template('product_detail.html', product=product)
+
 
 @app.route('/product/new_product',methods=['POST', 'GET'] )
 def new_product():
@@ -195,9 +206,19 @@ def new_product():
             add_product(name, description, price, image)
             product = get_product_by_id(1)
             conn.close()
-            return(f"ID: {product[0]}, Name: {product[1]}, Description: {product[2]}, Price: {product[3]}, Image: {product[4]}")
+            return redirect("/main")
     else:
       return  render_template('new_product.html')
+    
+
+@app.route('/profile')
+def profile():
+    global profileusername
+    global profilemail
+    username = profileusername
+    mail = profilemail
+    return render_template('profile.html', username= username, mail = mail)
+
 
 
 if __name__ == '__main__':
