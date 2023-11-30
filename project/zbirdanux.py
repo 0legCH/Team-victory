@@ -159,7 +159,7 @@ def product_detail(product_id):
     if request.method == "POST":
         value = request.form['value']
         if value == "Купити":
-            conn = sqlite3.connect('C:/Users/dosyu/OneDrive/Документи/chypachyps/Team-victory/products.db')
+            conn = sqlite3.connect('C:/Users/User/Documents/team/Team-victory/products.db')
             cursor = conn.cursor()
 
 
@@ -172,7 +172,7 @@ def product_detail(product_id):
             price = product[3]
             conn.close()
 
-            conn = sqlite3.connect('C:/Users/dosyu/OneDrive/Документи/chypachyps/Team-victory/project/basket_database.db')
+            conn = sqlite3.connect('C:/Users/User/Documents/team/Team-victory/project/basket_database.db')
             cursor = conn.cursor()
             cursor.execute('''CREATE TABLE IF NOT EXISTS cart
                               (id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -193,7 +193,7 @@ def product_detail(product_id):
             conn.close()
             return redirect('/basket')
     else :
-        conn = sqlite3.connect('C:/Users/dosyu/OneDrive/Документи/chypachyps/Team-victory/products.db')
+        conn = sqlite3.connect('C:/Users/User/Documents/team/Team-victory/products.db')
         cursor = conn.cursor()
         def get_product_by_id(product_id):
             cursor.execute('SELECT * FROM products WHERE id = ?', (product_id,))
@@ -260,7 +260,7 @@ def profile():
 
 @app.route('/basket')
 def show_cart():
-    conn = sqlite3.connect('C:/Users/dosyu/OneDrive/Документи/chypachyps/Team-victory/project/basket_database.db')
+    conn = sqlite3.connect('C:/Users/User/Documents/team/Team-victory/project/basket_database.db')
     cursor = conn.cursor()
 
 
@@ -270,7 +270,7 @@ def show_cart():
 
     conn.close()
 
-    return render_template('basket.html', cart_items=cart_items)
+    return render_template('goods.html', cart_items=cart_items)
 
 
 
