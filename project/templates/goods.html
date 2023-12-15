@@ -1,57 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Корзина</title>
-        <link rel="stylesheet" href="../static/styles.css">
-    </head>
-    <body>
-
+        <link rel="stylesheet" href="../static/web.css">
         <style>
-            body{
-                background-image:url("https://wallpaperaccess.com/full/4490438.jpg")
+            h1{
+             margin-top: 3vh;
+             margin-bottom: 3vh;
             }
         </style>
-       
-       
-        <div id="cart">
-            <h2>
-                <font face = "academy engraved let" color = "white" size = "8">
-                    Cart
-                </font>
-            </h2>
-            <ul id="cart-items">
-                <font face = "academy engraved let" color = "white" size = "4">           
-                    <table>
-                    
-                        {% for item in cart_items %}
-                        <tr>
-                            <td>{{ item[1] }}</td>
-                            <td>{{ item[2] }}</td>
-                            <td>{{ item[3] }}</td>
-                            <td></td>
-                        </tr>
-                        {% endfor %}
-                    </table>
-                </font>
-                <!-- Сюди будуть додаватися товари -->
-            </ul>
-            <p id="total">
-                <font face = "academy engraved let" color = "white" size = "4">
-                    Total price: $0.00
-                 </font>
-            </p>
-            <button  class = "button" onclick="іcheckout()">
-                <font face = "academy engraved let" color = "white" size = "4">
-                    Order
-                 </font>
-            </button>
+    </head>
+    <body>
+        <div id="head">
+            <a class="logo" href="/main"><img src="../static/logo.png"></a>
+            <a class="basketprofile" href="/main"><img src="../static/profile.png"></a>
+            
         </div>
+        <div id="basketinfo">
+            <h1>Корзина</h1>
 
-      
-    
-        <script src="script.js"></script>
+
+
+            <table>
+                <tr>
+                    <th><h3>Назва</h3></th>
+                    <th><h3>Ціна</h3></th>
+                    <th><h3>Кількість</h3></th>
+                    <th><h3>Загальна ціна</h3></th>
+
+                </tr>
+                
+                {% for item in cart_items %}
+                <tr>
+                    <td><h2>{{ item[1] }}</h2></td>
+                    <td><h2>{{ item[2] }}</h2></td>
+                    <td><h2>{{ item[3] }}</h2></td>
+                    <td><h2>{{ item[3] * item[2]}}</h2></td>
+                </tr>
+                
+
+                {% endfor %}
+            </table>
+            <h1>Total price: {{price}} UAH</h1>
+            <p></p>
+            <a class = "button" href="/">Замовити</a> 
+
+
+        </div>
+              
     </body>
     </html>
     

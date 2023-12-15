@@ -5,14 +5,20 @@ import time
 import threading
 
 app = Flask(__name__)
-
+#Данні профіля
+def makeadmin():
+    global status
+    status = "admin"
+def makeuser():
+    global status 
+    status = "user" 
 def set_profiledata(username,mail):
     global profileusername
     global profilemail
 
     profileusername = username
     profilemail = mail[0]
-
+#
 
 #Початок логування
 logger = logging.getLogger('my_website')
@@ -71,7 +77,7 @@ def login_form():
         value = request.form['value']
         conn = sqlite3.connect('credentials.db')
         cursor = conn.cursor()
-        cursor.execute('''CREATE TABLE IF NOT EXISTS credentials (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, mail TEXT)''')
+        cursor.execute('''CREATE TABLE IF NOT EXISTS credentials (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, mail TEXT, status TEXT)''')
 
         def login(username, password):
             global wrong_data_try
@@ -82,6 +88,7 @@ def login_form():
                 result = cursor.fetchone()
                 logenter(username, result)
                 set_profiledata(username, result)
+                makeuser()
 
                 return 'main'
             else:
@@ -104,11 +111,13 @@ def registration():
         mail = str(request.form['mail'])
         password = str(request.form['password'])
         value = request.form['value']
+        makeuser()
+        global status
         conn = sqlite3.connect('credentials.db')
         cursor = conn.cursor()
 
-        cursor.execute('''CREATE TABLE IF NOT EXISTS credentials (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, mail TEXT)''')
-        def save_credentials(username, password, mail):
+        cursor.execute('''CREATE TABLE IF NOT EXISTS credentials (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, mail TEXT, status TEXT)''')
+        def save_credentials(username, password, mail, status):
 
 
             cursor.execute("SELECT * FROM credentials WHERE username=?", (username,))
@@ -118,12 +127,12 @@ def registration():
 
 
 
-            cursor.execute("INSERT INTO credentials (username, password, mail) VALUES (?, ?, ?)", (username, password, mail))
+            cursor.execute("INSERT INTO credentials (username, password, mail, status) VALUES (?, ?, ?, ?)", (username, password, mail, status))
             conn.commit()
             logregistration(username, mail)
             return redirect('/newaccount')
         if value == "Зареєструватися":
-            resalt1 = save_credentials(username, password, mail)
+            resalt1 = save_credentials(username, password, mail, status)
         return resalt1
     else:
         return render_template('registration.html')
@@ -179,18 +188,22 @@ def product_detail(product_id):
                               name TEXT NOT NULL,
                               price REAL NOT NULL,
                               quantity INTEGER NOT NULL)''')
-
-
-
-
-
-            cursor.execute('INSERT INTO cart (name, price, quantity) VALUES (?, ?, ?)', (name, price, 1))
-
-
-            conn.commit()
-
-
-            conn.close()
+            
+            cursor.execute('SELECT COUNT(*) FROM cart WHERE name = ?', (name,))
+            count = cursor.fetchone()[0]
+            if count > 0:
+                cursor.execute('SELECT quantity FROM cart WHERE name = ?', (name,))
+                current_quantity = cursor.fetchone()[0]
+                new_quantity = current_quantity + 1
+                cursor.execute('UPDATE cart SET quantity = ? WHERE name = ?', (new_quantity, name))
+  
+                
+                conn.commit()
+                conn.close()
+            else:
+                cursor.execute('INSERT INTO cart (name, price, quantity) VALUES (?, ?, ?)', (name, price, 1))
+                conn.commit()
+                conn.close()
             return redirect('/basket')
     else :
         conn = sqlite3.connect('C:/Users/User/Documents/team/Team-victory/products.db')
@@ -210,7 +223,7 @@ def product_detail(product_id):
 def new_product():
     if request.method == "POST":
         #
-        conn = sqlite3.connect('products.db')
+        conn = sqlite3.connect('C:/Users/User/Documents/team/Team-victory/products.db')
         cursor = conn.cursor()
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS products (
@@ -253,9 +266,11 @@ def new_product():
 def profile():
     global profileusername
     global profilemail
+    global status
+    stat = status
     username = profileusername
     mail = profilemail
-    return render_template('profile.html', username= username, mail = mail)
+    return render_template('profile.html', username= username, mail = mail, status = stat)
 
 
 @app.route('/basket')
@@ -269,8 +284,20 @@ def show_cart():
 
 
     conn.close()
+    price = 0
+    for item in cart_items:
+        price += item[3]* item[2]
 
-    return render_template('goods.html', cart_items=cart_items)
+    return render_template('goods.html', cart_items=cart_items, price = price)
+
+
+@app.route('/product')
+def product():
+    conn = sqlite3.connect('C:/Users/User/Documents/team/Team-victory/products.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM products')
+    products = cursor.fetchall() 
+    return render_template('productslist.html', products=products)
 
 
 

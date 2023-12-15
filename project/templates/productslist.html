@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список товарів</title>
+    <link rel="stylesheet" href="../static/web.css">
+</head>
+<body>
+    <div id="head">
+        <a class="logo" href="/main"><img src="../static/logo.png"></a>
+        <a class="basket" href="/basket"><img src="../static/basket.png"></a>
+        <a class="profile" href="/profile"><img src="../static/profile.png"></a>
+    </div>
+    <div id="info">
+        <h1>Всі товари</h1>
+        
+        {% for product in products %}
+        <div id="item">
+            <a href="/product/{{ product[0] }}">
+                <img src="{{ url_for('static', filename=product[4]) }}"  >
+            </a>
+            <h4>{{product[1]}}</h4>
+        </div>
+        {% endfor %}
+       
+    </div>
+</body>
+</html>

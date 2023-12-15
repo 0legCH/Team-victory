@@ -17,8 +17,11 @@ body{
 }
 #head a{
     margin-bottom: 10vh;
-    margin-left: 70vh;
+    
     font-size: x-large;
+}
+#head .button{
+    margin-left: 70vh;
 }
 .main {
     display: flex;
